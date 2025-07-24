@@ -33,15 +33,13 @@
       };
     in
     {
-      lib = {
-        inherit
-          isValidInt
-          tryParseInt
-          parseInt
-          ;
-        inherit (hexInt) isValidHex tryParseHex parseHex;
-        inherit (binaryInt) isValidBinary tryParseBinary parseBinary;
-        inherit (decimalInt) isValidDecimal tryParseDecimal parseDecimal;
-      };
+      inherit
+        isValidInt
+        tryParseInt
+        parseInt
+        ;
+      inherit (hexInt) isValidHex tryParseHex parseHex;
+      inherit (binaryInt) isValidBinary tryParseBinary parseBinary;
+      inherit (decimalInt) isValidDecimal tryParseDecimal parseDecimal;
     };
 }
