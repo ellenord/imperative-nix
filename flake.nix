@@ -2,7 +2,7 @@
   description = "Reusable integer parsing and validation functions (hex, binary, decimal)";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs =
