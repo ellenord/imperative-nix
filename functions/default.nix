@@ -31,6 +31,9 @@ rec {
   breakpoint = import ./breakpoint.nix {
     inherit execSh;
   };
+  readline = import ./readline.nix {
+    inherit execSh;
+  };
   inherit
     int
     hexInt

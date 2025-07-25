@@ -34,6 +34,7 @@
             getRandomInt
             execSh
             breakpoint
+            readline
             ;
           inherit (bool) isValidBool tryParseBool parseBool;
           inherit (int) isValidInt tryParseInt parseInt;
