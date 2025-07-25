@@ -32,6 +32,7 @@
             getHashedPassword
             runUnitTests
             getRandomInt
+            execSh
             ;
           inherit (bool) isValidBool tryParseBool parseBool;
           inherit (int) isValidInt tryParseInt parseInt;
