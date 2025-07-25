@@ -1,45 +1,44 @@
 {
-  description = "Reusable integer parsing and validation functions (hex, binary, decimal)";
+  description = "imperative-nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
-    { self, nixpkgs }:
-    let
-      lib = nixpkgs.lib;
-
-      hexInt = import ./functions/int/hex-int { inherit lib; };
-      binaryInt = import ./functions/int/binary-int { inherit lib; };
-      decimalInt = import ./functions/int/decimal-int { inherit lib; };
-
-      isValidInt = import ./functions/int/is-valid-int.nix {
-        inherit lib;
-        inherit (hexInt) isValidHex;
-        inherit (binaryInt) isValidBinary;
-        inherit (decimalInt) isValidDecimal;
-      };
-
-      tryParseInt = import ./functions/int/try-parse-int.nix {
-        inherit lib;
-        inherit (hexInt) isValidHex tryParseHex;
-        inherit (binaryInt) isValidBinary tryParseBinary;
-        inherit (decimalInt) isValidDecimal tryParseDecimal;
-      };
-
-      parseInt = import ./functions/int/parse-int.nix {
-        inherit tryParseInt;
-      };
-    in
     {
-      inherit
-        isValidInt
-        tryParseInt
-        parseInt
-        ;
-      inherit (hexInt) isValidHex tryParseHex parseHex;
-      inherit (binaryInt) isValidBinary tryParseBinary parseBinary;
-      inherit (decimalInt) isValidDecimal tryParseDecimal parseDecimal;
-    };
+      self,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" ] (
+      with self.inputs;
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+        };
+        lib = pkgs.lib;
+        functions = import ./functions { inherit lib pkgs; };
+      in
+      with functions;
+      {
+        lib = {
+          trace = lib.debug.traceSeq;
+          inherit
+            isNullOrWhitespace
+            getRandomSalt
+            getHashedPassword
+            runUnitTests
+            getRandomInt
+            ;
+          inherit (bool) isValidBool tryParseBool parseBool;
+          inherit (int) isValidInt tryParseInt parseInt;
+          inherit (hexInt) isValidHex tryParseHex parseHex;
+          inherit (binaryInt) isValidBinary tryParseBinary parseBinary;
+          inherit (decimalInt) isValidDecimal tryParseDecimal parseDecimal;
+        };
+      }
+    );
 }

@@ -7,6 +7,14 @@ if !(isValidHex (format hexStr)) then
   null
 else
   let
+    safeSqr =
+      v:
+      (
+        if 9223372036854775807 - v <= v then
+          -9223372036854775807 - 1 + v + v - 9223372036854775807 - 1
+        else
+          v * 2
+      );
     isNegative = lib.strings.hasPrefix "-" (format hexStr);
     minusRemoved = lib.strings.removePrefix "-" (format hexStr);
     plusRemoved = lib.strings.removePrefix "+" (format minusRemoved);
@@ -35,7 +43,7 @@ else
       let
         val = hexMap.${char};
       in
-      acc * 16 + val
+      (safeSqr (acc * 8)) + val
     ) 0;
   in
   if isNegative then -(fold digits) else fold digits

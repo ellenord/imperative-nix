@@ -10,12 +10,14 @@ let
       input: expected:
       let
         output = func input;
+        result = if output == expected then "✅ PASSED" else "❌ FAILED";
       in
       {
         inherit
           input
           expected
           output
+          result
           ;
       }
     ) tests
