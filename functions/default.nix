@@ -28,6 +28,9 @@ rec {
       inherit pkgs execSh parseInt;
     }
   );
+  breakpoint = import ./breakpoint.nix {
+    inherit execSh;
+  };
   inherit
     int
     hexInt

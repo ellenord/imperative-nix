@@ -33,6 +33,7 @@
             runUnitTests
             getRandomInt
             execSh
+            breakpoint
             ;
           inherit (bool) isValidBool tryParseBool parseBool;
           inherit (int) isValidInt tryParseInt parseInt;
