@@ -2,4 +2,5 @@
   execSh,
   ...
 }:
-message: toString (execSh "read && echo '\"$\"'")
+message: identifier:
+toString (execSh "echo '\"${message}\"' >&2 && read && echo '\"${identifier}\"'")
